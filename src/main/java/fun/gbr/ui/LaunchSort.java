@@ -8,7 +8,7 @@ import fun.gbr.entity.AddressInfo;
 import fun.gbr.parameters.FilePurpose;
 import fun.gbr.service.ListService;
 
-//TODO Make writer go to empty lines to write 
+//TODO Ensure that defaults and assumptions can be cancelled
 
 public class LaunchSort {
 
@@ -78,6 +78,14 @@ public class LaunchSort {
 
 	}
 
+	/** Checks user choice for the read/write file locations. Includes verification of file existence and user confirmed creation 
+	 * @param choice y/n/address
+	 * @param purpose Identifies if file is input or output
+	 * @param scanner 
+	 * @param service The list service
+	 * @return true if choice valid
+	 * @throws UserQuit If user quit
+	 */
 	private static boolean checkChoice(String choice, FilePurpose purpose, Scanner scanner, ListService service)
 			throws UserQuit {
 
@@ -93,6 +101,14 @@ public class LaunchSort {
 		return validFiles == 1;
 	}
 
+	/** Analyses info about address and asks user for input if file needs to be created
+	 * @param info  contains info about the input address 
+	 * @param purpose Identifies if file is input or output
+	 * @param scanner
+	 * @param service
+	 * @return Number of valid files found
+	 * @throws UserQuit
+	 */
 	private static int reportChoice(AddressInfo info, FilePurpose purpose, Scanner scanner, ListService service)
 			throws UserQuit {
 
@@ -133,6 +149,12 @@ public class LaunchSort {
 		return validFiles;
 	}
 
+	/** Adds fileHandler to service for input or output
+	 * @param choice y/n/address
+	 * @param purpose read or write
+	 * @param service
+	 * @return info about the file address
+	 */
 	private static AddressInfo initStorageHandler(String choice, FilePurpose purpose, ListService service) {
 
 		choice = choice.trim();
