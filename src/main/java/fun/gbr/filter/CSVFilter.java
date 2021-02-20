@@ -6,9 +6,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Specifies what is recognised as a csv by our standards
+ *
+ */
 public class CSVFilter implements FilenameFilter {
 
-	private final Set<String> allowedTypes = new HashSet<String>(Arrays.asList("csv", "txt"));
+	private final Set<String> allowedTypes = new HashSet<>(Arrays.asList("csv", "txt"));
 	
 	@Override
 	public boolean accept(File dir, String name) {

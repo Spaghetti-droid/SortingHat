@@ -9,6 +9,10 @@ import fun.gbr.ui.UserQuit;
 
 import static fun.gbr.ui.UIUtils.treatUserInput;
 
+/**
+ * For fetching data from terminal input
+ *
+ */
 public class TerminalFetcher implements ListFetcher {
 	
 	private Scanner scanner;	
@@ -22,6 +26,8 @@ public class TerminalFetcher implements ListFetcher {
 	@Override
 	public List<String> getList() throws UserQuit {
 
+		// Give option to keep stored list
+		
 		if(this.userList != null) {
 			String choice = treatUserInput(scanner, "Re-shuffle previous list?(y/n)");
 			if(!"y".equals(choice)) {
@@ -29,11 +35,13 @@ public class TerminalFetcher implements ListFetcher {
 			}
 		}
 		
+		// Ask for new list if needed
+		
 		if(this.userList == null) {
 			
 			String terminalInput = treatUserInput(scanner, "Input the list of elements to shuffle, seperated by ',': ");
 
-			this.userList = new ArrayList<String>(Arrays.asList(terminalInput.split(",")));
+			this.userList = new ArrayList<>(Arrays.asList(terminalInput.split(",")));
 		}
 		
 		return this.userList;

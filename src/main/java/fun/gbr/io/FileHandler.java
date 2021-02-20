@@ -9,11 +9,17 @@ import java.util.List;
 import fun.gbr.filter.CSVFilter;
 import fun.gbr.parameters.Options;
 
+/**
+ * Responsible for all interactions involving a file
+ *
+ */
 public class FileHandler {
 
 	private File file;
 	private File directory;
+	private List<File> validDirectoryChildren;
 	private boolean dirGiven;
+	private boolean desiredFileGuessed = false;
 
 	public FileHandler(String address) {
 		super();
@@ -34,6 +40,9 @@ public class FileHandler {
 	 * @return true if a csv was found, false otherwise.
 	 */
 	public int findAndSetFile() {
+		
+		// If is a file, check exists and return result
+		
 		if (!dirGiven) {
 			if (file == null) {
 				throw new RuntimeException("No csv file was stored despite isDefault being false");
@@ -41,6 +50,8 @@ public class FileHandler {
 			return (file.exists()) ? 1 : 0;
 		}
 
+		//  if is a dir, list contained files
+		
 		File[] fileArray = directory.listFiles(new CSVFilter());
 		if (fileArray == null) {
 			return 0;
@@ -58,8 +69,12 @@ public class FileHandler {
 		}
 
 		if (this.file != null) {
-			System.out.println("Assuming that " + file.getPath() + " is the desired file");
+			System.out.println("Specific file not given, making guess.");
+			this.desiredFileGuessed = true;
 			return 1;
+		}
+		if(files.size()>1) {
+			this.validDirectoryChildren=files;
 		}
 		return files.size();
 
@@ -98,6 +113,18 @@ public class FileHandler {
 		return file;
 	}
 
+	/** Sets a new file in the handler, resetting all related variables. Only accepts existing files.
+	 * @param file
+	 */
+	public void setFile(File file) {
+		if(file==null || !file.exists()) {
+			throw new IllegalArgumentException("Attempt to change stored file to non-existant one.");
+		}
+		this.file = file;
+		this.directory = file.getParentFile();
+		this.dirGiven = file.isDirectory();
+	}
+
 	public File getDirectory() {
 		return directory;
 	}
@@ -106,4 +133,11 @@ public class FileHandler {
 		return dirGiven;
 	}
 
+	public boolean isDesiredFileGuessed() {
+		return desiredFileGuessed;
+	}
+
+	public List<File> getValidDirectoryChildren() {
+		return validDirectoryChildren;
+	}
 }

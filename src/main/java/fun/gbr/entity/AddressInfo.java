@@ -1,11 +1,16 @@
 package fun.gbr.entity;
 
+/**
+ * For storing everything you might want to know about a file or directory path
+ *
+ */
 public class AddressInfo {
 	
 	private boolean isDirAddress;
 	private int validFileNumberAtAddress;
 	private String address;
 	private String directory;
+	private boolean desiredFileIsGuessed;
 	
 	
 	public boolean isDirAddress() {
@@ -31,5 +36,11 @@ public class AddressInfo {
 	}
 	public void setDirectory(String directory) {
 		this.directory = directory;
+	}
+	public boolean isDesiredFileGuessed() {
+		return desiredFileIsGuessed;
+	}
+	public void setDesiredFileIsGuessed(boolean desiredFileIsGuessed) {
+		this.desiredFileIsGuessed = desiredFileIsGuessed;
 	}
 }

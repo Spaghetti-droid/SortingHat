@@ -1,5 +1,9 @@
 package fun.gbr.ui;
 
+/**
+ * Thrown when the user quits
+ *
+ */
 public class UserQuit extends Throwable {
 
 	/**

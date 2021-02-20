@@ -6,6 +6,10 @@ import java.util.List;
 
 import com.opencsv.CSVWriter;
 
+/**
+ * Outputs list to a CSV
+ *
+ */
 public class CSVListWriter implements ListWriter {
 
 	private FileHandler handler;
@@ -27,16 +31,4 @@ public class CSVListWriter implements ListWriter {
 
 		System.out.println("Done.");		
 	}
-	
-	public String escapeSpecialCharacters(String element) {
-		
-	    String escapedData = element.replaceAll("\\R", " ");
-	    if (element.contains(",") || element.contains("\"") || element.contains("'")) {
-	        element = element.replace("\"", "\"\"");
-	        escapedData = "\"" + element + "\"";
-	    }
-	    return escapedData;
-		
-	}
-
 }

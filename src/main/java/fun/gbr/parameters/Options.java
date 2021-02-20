@@ -1,5 +1,9 @@
 package fun.gbr.parameters;
 
+/**
+ * Stores options, such as default parameter values
+ *
+ */
 public abstract class Options {
 	
 	public static final String DEFAULT_INPUT_LOCATION = "./input/";

@@ -2,6 +2,10 @@ package fun.gbr.io;
 
 import java.util.List;
 
+/**
+ * For outputting results to the terminal
+ *
+ */
 public class TerminalWriter implements ListWriter {
 
 	@Override
