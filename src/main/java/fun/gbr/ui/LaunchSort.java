@@ -8,11 +8,16 @@ import java.util.Scanner;
 
 import fun.gbr.entity.AddressInfo;
 import fun.gbr.parameters.FilePurpose;
+import fun.gbr.parameters.Options;
 import fun.gbr.service.ListService;
 
-//TODO Handle windows \ syntax
+//TODO Add screen for options with value display and proposal for change
+//TODO Remove empty cells produced by multiple lines
+//TODO Look into permission issue
 //TODO Test specified paths
 //TODO consider light version without dependencies
+//TODO implement unit testing
+//TODO Make file validity test more universal
 
 /**
  * Launches Sorting hat
@@ -23,6 +28,8 @@ public class LaunchSort {
 	public static void main(String[] args) {
 
 		Scanner scanner = new Scanner(System.in);
+		Options.initFromFile();
+		Screen.initScreens();
 
 		System.out.println(
 				"Hey, welcome to Sorting hat!\n"

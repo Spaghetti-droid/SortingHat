@@ -29,6 +29,6 @@ public class CSVListWriter implements ListWriter {
 			writer.writeNext(line);
 		}
 
-		System.out.println("Done.");		
+		System.out.println("Shuffled list written to file: " + line);		
 	}
 }

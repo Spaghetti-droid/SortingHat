@@ -1,0 +1,10 @@
+## Sorting Hat options ##
+
+# Default file parameters
+DEFAULT_INPUT_LOCATION: ./input/
+DEFAULT_OUTPUT_LOCATION: ./output/
+DEFAULT_FILE_NAME: list.csv
+CSV_FILE_EXTENSIONS: csv, txt
+
+# Shuffle parameters
+MAX_REPEATS: 2
