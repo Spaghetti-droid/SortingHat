@@ -7,6 +7,8 @@ import java.util.Scanner;
  *
  */
 public class UIUtils {
+	
+	//TODO Could make treatUserInput take a list of expected responses, so that it can ask again if need be
 
 	/**
 	 * Sends prompt to user and reads input. Calls specific methods for certain
@@ -33,7 +35,7 @@ public class UIUtils {
 			
 			String trimmedInput = input.trim();
 			if (Screen.commandsAndScreens.containsKey(trimmedInput)) {
-				Screen.commandsAndScreens.get(trimmedInput).open();
+				Screen.commandsAndScreens.get(trimmedInput).open(scanner);
 				System.out.println("\n"+prompt);
 			} else {
 				getMoreInput = false;

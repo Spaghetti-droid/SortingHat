@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import fun.gbr.ui.UIUtils;
+import fun.gbr.ui.UserQuit;
+
 /**
  * Fetches info from a text file, assuming csv delimiter
  *
@@ -12,11 +15,13 @@ import java.util.Scanner;
 public class CSVListFetcher implements ListFetcher {
 	
 	private FileHandler handler;
+	private Scanner scanner;
 	private List<String> csvList;
 
-	public CSVListFetcher(FileHandler handler) throws FileNotFoundException {
+	public CSVListFetcher(Scanner scanner, FileHandler handler) throws FileNotFoundException {
 		super();
 		this.handler = handler;
+		this.scanner = scanner;
 		init();
 	}
 
@@ -25,10 +30,10 @@ public class CSVListFetcher implements ListFetcher {
 	 */
 	private void init() throws FileNotFoundException {
 		 csvList = new ArrayList<>();
-		Scanner scanner = new Scanner(handler.getFile());
-		scanner.useDelimiter(",");
-		while(scanner.hasNext()) {
-			csvList.add(scanner.next());
+		Scanner fileScanner = new Scanner(handler.getFile());
+		fileScanner.useDelimiter(",");
+		while(fileScanner.hasNext()) {
+			csvList.add(fileScanner.next());
 		}		
 	}
 	
@@ -37,4 +42,20 @@ public class CSVListFetcher implements ListFetcher {
 		return this.csvList;
 	}
 
+	@Override
+	public boolean onInvalidList() throws UserQuit {
+		
+		System.out.println("In order to obtain a list that can be shuffled, you may modify the file and save it. Alternatively you may modify the MAX_REPEATS option with 'o'.");
+		String response = UIUtils.treatUserInput(scanner, "Would you like to try again?(y/n)");
+		if("y".equals(response)) {
+			try {
+				init();
+			} catch (FileNotFoundException e) {
+				System.err.println("Couldn't find file! Has it been moved?");
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
 }

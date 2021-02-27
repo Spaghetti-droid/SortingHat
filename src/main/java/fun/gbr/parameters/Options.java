@@ -78,6 +78,10 @@ public abstract class Options {
 		}
 	}
 
+	/** Strips line of comments (starting with #) and leading or trailing spaces
+	 * @param line
+	 * @return
+	 */
 	private static String removeCommentsAndSpaces(String line) {
 
 		if (line.isEmpty() || line.startsWith("#")) {
@@ -90,6 +94,10 @@ public abstract class Options {
 		return line.trim();
 	}
 
+	/** Parses line to obtain the name and value of the option to be modified 
+	 * @param line
+	 * @return the name and value
+	 */
 	private static List<String> getOptionNameAndValue(String line) {
 
 		int columnIdx = line.indexOf(":");
@@ -104,6 +112,10 @@ public abstract class Options {
 		return nameAndValue;
 	}
 
+	/** Sets an input value to an option designated by name
+	 * @param fieldName
+	 * @param fieldValue
+	 */
 	public static void changeOptionValue(String fieldName, String fieldValue){
 
 		if (fieldValue.isEmpty()) {
@@ -114,9 +126,26 @@ public abstract class Options {
 		try {
 
 			Field field = Options.class.getField(fieldName);
+			changeOptionValue(field, fieldValue);
+
+		} catch (Exception e) {
+			System.err.println("Unable to set "+fieldName+" due to exception!");
+			e.printStackTrace();
+		} 
+
+	}
+	
+	/**  Sets an input value to an option directly using the field object
+	 * @param field
+	 * @param fieldValue
+	 * @return true if setting was successful, false otherwise
+	 */
+	public static boolean changeOptionValue(Field field, String fieldValue) {
+		
+		try {
 
 			Class<?> fieldClass = field.getType();
-
+			String fieldName = field.getName();
 			if (fieldClass.equals(Set.class)) {
 
 				Set<String> fieldValueSet = new HashSet<>(Arrays.asList(fieldValue.split(",")));
@@ -132,7 +161,7 @@ public abstract class Options {
 
 				int intValue = Integer.valueOf(fieldValue);
 				if(!passSpecialChecks(fieldName, intValue)) {
-					return;
+					return false;
 				}				
 				field.setInt(null, intValue);
 
@@ -143,13 +172,23 @@ public abstract class Options {
 
 			}
 
-		} catch (Exception e) {
-			System.err.println("Unable to set "+fieldName+" due to exception!");
-			e.printStackTrace();
-		} 
+			return true;
 
+		}catch(IllegalAccessException e) {
+			System.err.println("Unable to set "+field.getName()+". Illegal access.");
+			e.printStackTrace();
+			return false;
+		}catch(NumberFormatException e) {
+			System.out.println(fieldValue + " is not a valid value for " + field.getName());
+			return false;
+		}
 	}
 	
+	/** Check requirements that are specific to one field
+	 * @param fieldName
+	 * @param fieldValue
+	 * @return true if the value passes requirements
+	 */
 	private static boolean passSpecialChecks(String fieldName,int fieldValue) {
 		
 		if ("MAX_REPEATS".equals(fieldName)) {
@@ -163,6 +202,11 @@ public abstract class Options {
 		return true;		
 	}
 	
+	/** Checks if value is valid for field. Uses patterns in the option name to determine conditions
+	 * @param fieldName
+	 * @param fieldValueSet
+	 * @return true if value passes conditions
+	 */
 	private static boolean passGenericTests(String fieldName, Set<String> fieldValueSet) {
 		
 		if (fieldName.endsWith("EXTENSIONS")) {

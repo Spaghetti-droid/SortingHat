@@ -15,5 +15,11 @@ public interface ListFetcher {
 	 * @throws UserQuit If user quits
 	 */
 	public List<String> getList() throws UserQuit;
+	
+	/** Dictates actions to take if list is invalid
+	 * @return true if a getList will produce a different list, false otherwise.
+	 * @throws UserQuit
+	 */
+	public boolean onInvalidList() throws UserQuit;
 
 }

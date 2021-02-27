@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import fun.gbr.ui.UIUtils;
 import fun.gbr.ui.UserQuit;
 
 import static fun.gbr.ui.UIUtils.treatUserInput;
@@ -14,8 +15,8 @@ import static fun.gbr.ui.UIUtils.treatUserInput;
  *
  */
 public class TerminalFetcher implements ListFetcher {
-	
-	private Scanner scanner;	
+
+	private Scanner scanner;
 	private List<String> userList;
 
 	public TerminalFetcher(Scanner scanner) {
@@ -26,26 +27,30 @@ public class TerminalFetcher implements ListFetcher {
 	@Override
 	public List<String> getList() throws UserQuit {
 
-		// Give option to keep stored list
-		
-		if(this.userList != null) {
-			String choice = treatUserInput(scanner, "Re-shuffle previous list?(y/n)");
-			if(!"y".equals(choice)) {
-				userList = null;
-			}
-		}
-		
 		// Ask for new list if needed
-		
-		if(this.userList == null) {
-			
-			String terminalInput = treatUserInput(scanner, "Input the list of elements to shuffle, seperated by ',': ");
 
-			this.userList = new ArrayList<>(Arrays.asList(terminalInput.split(",")));
+		String prompt = "Input the list of elements to shuffle, seperated by ','";
+		if (this.userList != null) {
+			prompt += ". Enter to re-use the previous list";
 		}
-		
+		prompt+=":";
+
+		String terminalInput = treatUserInput(scanner, prompt);
+		if(!terminalInput.isEmpty()) {
+			this.userList = new ArrayList<>(Arrays.asList(terminalInput.split(",")));
+		} 
+
 		return this.userList;
-		
+	}
+
+	@Override
+	public boolean onInvalidList() throws UserQuit {
+
+		String response = UIUtils.treatUserInput(scanner, "Would you like to try again?(y/n)");
+		if ("y".equals(response)) {
+			return true;
+		}
+		return false;
 	}
 
 }

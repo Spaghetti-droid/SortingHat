@@ -3,7 +3,7 @@ package fun.gbr.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +15,7 @@ import fun.gbr.io.ListFetcher;
 import fun.gbr.io.ListWriter;
 import fun.gbr.io.TerminalFetcher;
 import fun.gbr.io.TerminalWriter;
+import fun.gbr.logic.ListProcessor;
 import fun.gbr.parameters.FilePurpose;
 import fun.gbr.parameters.Options;
 import fun.gbr.ui.UserQuit;
@@ -99,7 +100,7 @@ public class ListService {
 		if (readHandler == null) {
 			this.fetcher = new TerminalFetcher(scanner);
 		} else {
-			this.fetcher = new CSVListFetcher(readHandler);
+			this.fetcher = new CSVListFetcher(scanner, readHandler);
 		}
 		if (writeHandler == null) {
 			this.writer = new TerminalWriter();
@@ -110,15 +111,46 @@ public class ListService {
 	}
 	
 	/** Fetches, shuffles, and outputs a list
+	 * @return true if success, false otherwise
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws UserQuit
 	 */
-	public void fetchShuffleAndWrite() throws FileNotFoundException, IOException, UserQuit {
+	public boolean fetchShuffleAndWrite() throws FileNotFoundException, IOException, UserQuit {
 		
-		List<String> elements = fetcher.getList();
-		Collections.shuffle(elements);
+		List<String> elements = fetchList();
+		if(elements.isEmpty()) {
+			return false;
+		}
+		ListProcessor.shuffle(elements);
 		writer.writeList(elements);
+		return true;
+	}
+	
+	/** Gets list from input source and validates it.
+	 * @return the list. Empty if validation failed.
+	 * @throws UserQuit
+	 */
+	public List<String> fetchList() throws UserQuit{
+		
+		List<String> elements = new ArrayList<>();
+		boolean done = false;
+		boolean valid = false;
+		while(!done) {
+			elements = fetcher.getList();
+			valid=ListProcessor.validateList(elements);
+			if(!valid) {
+				System.out.println("It is impossible to shuffle the list provided while avoiding sequences of more than " + Options.MAX_REPEATS + " characters.");
+				done = !fetcher.onInvalidList();
+			} else {
+				done = true;
+			}
+		}
+		
+		if(valid) {
+			return elements;
+		}
+		return new ArrayList<>(0);		
 	}
 	
 	/** Returns a list of files that are considered valid at the specified location

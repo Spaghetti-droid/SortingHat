@@ -1,5 +1,11 @@
 package fun.gbr.ui;
 
+import java.util.Scanner;
+
+/**
+ * Screen that is accessed when the user requests help
+ *
+ */
 public class HelpScreen implements Screen {
 	
 	private static String message = "\n\n~~~~~~~~~~~~~~~\n\n"
@@ -13,11 +19,14 @@ public class HelpScreen implements Screen {
 			+ "Valid file formats are .csv and .txt for the moment. Sorting hat only determines mime type by file extension, "
 			+ "so these extensions need to be in the file name for the app to recognise them as readable/writable files.\n"
 			+ "If an output file doesn't exist Sorting hat will offer to create it.\n"
-			+ "\n" + "Useful commands: \n" + " -'q': Use at any prompt to quit\n" + " -'h': opens this help screen\n"
+			+ "\n" + "Useful commands: \n" 
+			+ " -'q': Use at any prompt to quit\n" 
+			+ " -'h': opens this help screen\n"
+			+ " -'o': use to view and set options"
 			+ "\n~~~~~~~~~~~~~~~\n";
 
 	@Override
-	public void open() {
+	public void open(Scanner scanner) {
 		System.out.println(message);		
 	}	
 	

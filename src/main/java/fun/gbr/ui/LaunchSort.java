@@ -11,7 +11,8 @@ import fun.gbr.parameters.FilePurpose;
 import fun.gbr.parameters.Options;
 import fun.gbr.service.ListService;
 
-//TODO Add screen for options with value display and proposal for change
+//TODO Add specific explanations to help screen
+//TODO Add possibility to add expected answers into treatInput so that we can suggest retyping if need be.
 //TODO Remove empty cells produced by multiple lines
 //TODO Look into permission issue
 //TODO Test specified paths
@@ -70,11 +71,16 @@ public class LaunchSort {
 					boolean proceed = "y".equals(userConfirmed);
 					while (proceed) {
 
-						service.fetchShuffleAndWrite();
+						boolean success = service.fetchShuffleAndWrite();
+						if(!success) {
+							System.out.println("Shuffle cancelled or failed!");
+							proceed = true;
+						} else {
 
-						String contChoice = treatUserInput(scanner, "Shuffle again with the same parameters? (y/n)");
-						if (!"y".equals(contChoice)) {
-							proceed = false;
+							String contChoice = treatUserInput(scanner, "Shuffle again with the same parameters? (y/n)");
+							if (!"y".equals(contChoice)) {
+								proceed = false;
+							}
 						}
 					}
 				} catch (Exception e) {
