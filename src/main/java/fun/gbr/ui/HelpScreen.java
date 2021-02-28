@@ -22,7 +22,7 @@ public class HelpScreen implements Screen {
 			+ "\n" + "Useful commands: \n" 
 			+ " -'q': Use at any prompt to quit\n" 
 			+ " -'h': opens this help screen\n"
-			+ " -'o': use to view and set options"
+			+ " -'o': use to view and set options\n"
 			+ "\n~~~~~~~~~~~~~~~\n";
 
 	@Override

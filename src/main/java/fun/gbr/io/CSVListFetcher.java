@@ -1,9 +1,15 @@
 package fun.gbr.io;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 
 import fun.gbr.ui.UIUtils;
 import fun.gbr.ui.UserQuit;
@@ -18,7 +24,7 @@ public class CSVListFetcher implements ListFetcher {
 	private Scanner scanner;
 	private List<String> csvList;
 
-	public CSVListFetcher(Scanner scanner, FileHandler handler) throws FileNotFoundException {
+	public CSVListFetcher(Scanner scanner, FileHandler handler) throws IOException, CsvException {
 		super();
 		this.handler = handler;
 		this.scanner = scanner;
@@ -26,15 +32,16 @@ public class CSVListFetcher implements ListFetcher {
 	}
 
 	/** Reads the file containing the list, and stores the list
-	 * @throws FileNotFoundException
+	 * @throws IOException 
+	 * @throws CsvException 
 	 */
-	private void init() throws FileNotFoundException {
+	private void init() throws IOException, CsvException {
 		 csvList = new ArrayList<>();
-		Scanner fileScanner = new Scanner(handler.getFile());
-		fileScanner.useDelimiter(",");
-		while(fileScanner.hasNext()) {
-			csvList.add(fileScanner.next());
-		}		
+		 CSVReader reader = new CSVReader(Files.newBufferedReader(handler.getFile().toPath()));		
+		 List<String[]> lines = reader.readAll();
+		 for(String[] line:lines) {
+			 csvList.addAll(Arrays.asList(line));
+		 }		 
 	}
 	
 	@Override
@@ -53,6 +60,12 @@ public class CSVListFetcher implements ListFetcher {
 			} catch (FileNotFoundException e) {
 				System.err.println("Couldn't find file! Has it been moved?");
 				return false;
+			} catch (IOException e) {
+				System.err.println("Attempt to read file failed!");
+				e.printStackTrace();
+			} catch (CsvException e) {
+				System.err.println("Error treating csv information!");
+				e.printStackTrace();
 			}
 			return true;
 		}

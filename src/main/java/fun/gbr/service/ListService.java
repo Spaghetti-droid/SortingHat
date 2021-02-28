@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.opencsv.exceptions.CsvException;
+
 import fun.gbr.entity.AddressInfo;
 import fun.gbr.io.CSVListFetcher;
 import fun.gbr.io.CSVListWriter;
@@ -93,9 +95,10 @@ public class ListService {
 	
 	/** Chooses input and output methods based on handler presence
 	 * @param scanner
-	 * @throws FileNotFoundException
+	 * @throws CsvException 
+	 * @throws IOException 
 	 */
-	public void initWriterAndFetcher(Scanner scanner) throws FileNotFoundException {
+	public void initWriterAndFetcher(Scanner scanner) throws IOException, CsvException {
 		
 		if (readHandler == null) {
 			this.fetcher = new TerminalFetcher(scanner);

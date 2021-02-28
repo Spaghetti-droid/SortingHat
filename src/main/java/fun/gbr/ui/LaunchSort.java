@@ -11,12 +11,11 @@ import fun.gbr.parameters.FilePurpose;
 import fun.gbr.parameters.Options;
 import fun.gbr.service.ListService;
 
+//TODO Make logger
+//TODO Allow MAX_REPEATS to be unset
 //TODO Add specific explanations to help screen
 //TODO Add possibility to add expected answers into treatInput so that we can suggest retyping if need be.
-//TODO Remove empty cells produced by multiple lines
 //TODO Look into permission issue
-//TODO Test specified paths
-//TODO consider light version without dependencies
 //TODO implement unit testing
 //TODO Make file validity test more universal
 
@@ -33,9 +32,9 @@ public class LaunchSort {
 		Screen.initScreens();
 
 		System.out.println(
-				"Hey, welcome to Sorting hat!\n"
-				+ "Shuffle a list from a file or the terminal :)\n"
-				+ "Type h at any prompt to get more info, q to quit.\n");
+				"\nHey, welcome to Sorting hat!\n"
+				+ "Shuffle a list from a file or the terminal :)\n\n"
+				+ "Type 'h' at any prompt to get more info, 'o' to modify options, and 'q' to quit.\n");
 
 		try {
 
@@ -115,6 +114,9 @@ public class LaunchSort {
 			throws UserQuit {
 
 		choice = choice.trim();
+		if(choice.startsWith("\"") && choice.endsWith("\"")) {
+			choice = choice.substring(1, choice.length()-1);
+		}
 		AddressInfo info = initStorageHandler(choice, purpose, service);
 		if (info == null) {
 			return true;
