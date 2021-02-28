@@ -27,4 +27,10 @@ v3:
 v4: 
 
 - You can now set options by modifying the Options.txt file
-- command 'o' added which displays option values
+- command 'o' added which displays option values, and lets you set them for the current run of the program
+- MAX_REPEATS option added which ensures that a certain list element will never be repeated more than the specified number of times. 
+(ex: "MAX_REPEATS: 2" forbids 1,1,1 from appearing in the shuffled list) 
+
+v4.1:
+
+- Fixed some bugs
