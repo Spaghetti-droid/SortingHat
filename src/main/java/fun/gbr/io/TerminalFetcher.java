@@ -46,7 +46,7 @@ public class TerminalFetcher implements ListFetcher {
 	@Override
 	public boolean onInvalidList() throws UserQuit {
 
-		String response = UIUtils.treatUserInput(scanner, "Would you like to try again?(y/n)");
+		String response = UIUtils.treatUserInput(scanner, "Would you like to try again?(y/n)", "y", "n");
 		if ("y".equals(response)) {
 			return true;
 		}

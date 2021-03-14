@@ -12,6 +12,7 @@ import java.util.stream.IntStream;
 
 import fun.gbr.entity.Clump;
 import fun.gbr.entity.ListInfo;
+import fun.gbr.parameters.Constants;
 import fun.gbr.parameters.Options;
 
 /**
@@ -26,6 +27,9 @@ public class ListProcessor {
 	 */
 	public static boolean validateList(List<String> list) {
 		
+		if(Options.MAX_REPEATS == Constants.INT_NONE_VALUE) { // No constraint
+			return true; 
+		}
 		ListInfo info = analyseList(list);		
 		return info.getMinNumberOfClumps()<=info.getNumberOfOtherElements()+1;
 	}
@@ -84,6 +88,10 @@ public class ListProcessor {
 		// Shuffle list
 		
 		Collections.shuffle(list);
+		
+		if(Constants.INT_NONE_VALUE == Options.MAX_REPEATS) {
+			return;
+		}
 		
 		// Find clumps
 		

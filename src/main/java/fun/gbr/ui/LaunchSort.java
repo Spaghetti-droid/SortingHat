@@ -12,9 +12,7 @@ import fun.gbr.parameters.Options;
 import fun.gbr.service.ListService;
 
 //TODO Make logger
-//TODO Allow MAX_REPEATS to be unset
 //TODO Add specific explanations to help screen
-//TODO Add possibility to add expected answers into treatInput so that we can suggest retyping if need be.
 //TODO Look into permission issue
 //TODO implement unit testing
 //TODO Make file validity test more universal
@@ -66,7 +64,7 @@ public class LaunchSort {
 
 					// Do shuffle loop
 
-					String userConfirmed = treatUserInput(scanner, "Parameters set. Are you happy with them? (y/n)");
+					String userConfirmed = treatUserInput(scanner, "Parameters set. Are you happy with them? (y/n)", "y", "n");
 					boolean proceed = "y".equals(userConfirmed);
 					while (proceed) {
 
@@ -76,7 +74,7 @@ public class LaunchSort {
 							proceed = true;
 						} else {
 
-							String contChoice = treatUserInput(scanner, "Shuffle again with the same parameters? (y/n)");
+							String contChoice = treatUserInput(scanner, "Shuffle again with the same parameters? (y/n)", "y", "n");
 							if (!"y".equals(contChoice)) {
 								proceed = false;
 							}
@@ -126,7 +124,7 @@ public class LaunchSort {
 
 		if (info.isDesiredFileGuessed()) {
 			String response = treatUserInput(scanner,
-					"File at " + service.getFile(purpose).getPath() + " will be used. Is this correct? (y/n)");
+					"File at " + service.getFile(purpose).getPath() + " will be used. Is this correct? (y/n)", "y", "n");
 			if (!"y".equals(response)) {
 				return false;
 			}
@@ -174,7 +172,7 @@ public class LaunchSort {
 			// If it's the output file, offer creation
 
 			if (FilePurpose.WRITE.equals(purpose) && scanner != null) {
-				userResponse = treatUserInput(scanner, "Would you like to create a new csv file? (y/n)");
+				userResponse = treatUserInput(scanner, "Would you like to create a new csv file? (y/n)", "y", "n");
 				if ("y".equals(userResponse)) {
 					boolean success = false;
 					if (isDir) {

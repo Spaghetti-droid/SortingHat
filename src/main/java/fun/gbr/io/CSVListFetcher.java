@@ -53,7 +53,7 @@ public class CSVListFetcher implements ListFetcher {
 	public boolean onInvalidList() throws UserQuit {
 		
 		System.out.println("In order to obtain a list that can be shuffled, you may modify the file and save it. Alternatively you may modify the MAX_REPEATS option with 'o'.");
-		String response = UIUtils.treatUserInput(scanner, "Would you like to try again?(y/n)");
+		String response = UIUtils.treatUserInput(scanner, "Would you like to try again?(y/n)", "y", "n");
 		if("y".equals(response)) {
 			try {
 				init();

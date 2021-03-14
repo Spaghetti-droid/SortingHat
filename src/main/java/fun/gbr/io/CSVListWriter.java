@@ -2,6 +2,7 @@ package fun.gbr.io;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import com.opencsv.CSVWriter;
@@ -29,6 +30,6 @@ public class CSVListWriter implements ListWriter {
 			writer.writeNext(line);
 		}
 
-		System.out.println("Shuffled list written to file: " + line);		
+		System.out.println("Shuffled list written to file: " + Arrays.asList(line));		
 	}
 }

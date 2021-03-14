@@ -26,6 +26,7 @@ public abstract class Options {
 
 	private static final File OPTIONS_FILE = new File("./Options.txt");
 	private static final Set<String> ILLEGAL_IN_EXTENSION = new HashSet<>(Arrays.asList(".", " "));
+	private static final Set<String> NULL_INPUT_PATTERNS = new HashSet<>(Arrays.asList("", "NONE", "NULL", "UNSET")); // empty string never happens, but it probably should
 
 	// Options with generic or name-based checks when setting
 
@@ -37,7 +38,7 @@ public abstract class Options {
 
 	// Options with specific checks when setting
 
-	public static int MAX_REPEATS = 3;
+	public static Integer MAX_REPEATS = 3;
 
 	/**
 	 * Fetches options in file and sets them
@@ -157,13 +158,13 @@ public abstract class Options {
 
 				field.set(null, fieldValue);
 
-			} else if (fieldClass.equals(int.class)) {
+			} else if (fieldClass.equals(int.class) || fieldClass.equals(Integer.class)) {
 
-				int intValue = Integer.valueOf(fieldValue);
+				Integer intValue = handleInputInt(fieldValue);
 				if(!passSpecialChecks(fieldName, intValue)) {
 					return false;
 				}				
-				field.setInt(null, intValue);
+				field.set(null, intValue);
 
 			} else {
 
@@ -184,15 +185,29 @@ public abstract class Options {
 		}
 	}
 	
+	/** Converts options input into an int value
+	 * @param fieldValue
+	 * @return int value, or the INT_NONE_VALUE from constants
+	 */
+	private static Integer handleInputInt(String fieldValue) {
+		
+		Integer intValue = Constants.INT_NONE_VALUE;
+		if(!NULL_INPUT_PATTERNS.contains(fieldValue.toUpperCase())) {
+			intValue = Integer.valueOf(fieldValue);
+		}
+		
+		return intValue;		
+	}
+	
 	/** Check requirements that are specific to one field
 	 * @param fieldName
 	 * @param fieldValue
 	 * @return true if the value passes requirements
 	 */
-	private static boolean passSpecialChecks(String fieldName,int fieldValue) {
+	private static boolean passSpecialChecks(String fieldName,Integer fieldValue) {
 		
 		if ("MAX_REPEATS".equals(fieldName)) {
-			if (fieldValue <1) {
+			if (fieldValue != Constants.INT_NONE_VALUE && fieldValue <1) {
 				System.err.println(fieldValue + " is not a valid maximum number of repeats!");
 				return false;
 			}

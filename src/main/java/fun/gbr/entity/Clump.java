@@ -1,5 +1,6 @@
 package fun.gbr.entity;
 
+import fun.gbr.parameters.Constants;
 import fun.gbr.parameters.Options;
 
 /**
@@ -13,7 +14,9 @@ public class Clump {
 	int location;
 	
 	public Clump(String element, int size, int location) {
-		super();
+		if(Options.MAX_REPEATS == Constants.INT_NONE_VALUE) {
+			throw new IllegalStateException("Clumps don't need to be initialised when no constraints on repeats exist");
+		}
 		this.element = element;
 		this.size = size;
 		this.location = location;

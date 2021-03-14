@@ -6,5 +6,5 @@ DEFAULT_OUTPUT_LOCATION: ./output/
 DEFAULT_FILE_NAME: list.csv
 CSV_FILE_EXTENSIONS: csv, txt
 
-# Shuffle parameters
-MAX_REPEATS: 2
+# Shuffle parameters. 
+MAX_REPEATS: unset	# UNSET to place no restrictions, a positive non-zero integer otherwise

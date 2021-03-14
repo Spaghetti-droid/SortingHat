@@ -23,7 +23,7 @@ public class OptionsScreen implements Screen {
 			// Suggest change here
 
 			editOption(scanner, fields);
-			String response = UIUtils.treatUserInput(scanner, "Done?(y/n)");
+			String response = UIUtils.treatUserInput(scanner, "Done?(y/n)", "y", "n");
 			done = "y".equals(response);
 		}
 	}
