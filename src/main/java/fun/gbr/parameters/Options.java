@@ -38,7 +38,7 @@ public abstract class Options {
 
 	// Options with specific checks when setting
 
-	public static Integer MAX_REPEATS = 3;
+	public static Integer MAX_REPEATS = Constants.INT_NONE_VALUE;
 
 	/**
 	 * Fetches options in file and sets them
