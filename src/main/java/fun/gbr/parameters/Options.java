@@ -238,4 +238,23 @@ public abstract class Options {
 		
 		return true;		
 	}
+	
+	// %%%%%%%%%% Interface methods %%%%%%%%%%
+	
+	public static int getMaxRepeats() {
+		if(MAX_REPEATS == Constants.INT_NONE_VALUE) {
+			return 0;
+		}
+		return MAX_REPEATS;
+	}
+	
+	public static void setMaxRepeats(Integer repeats) {
+			if(repeats == 0) {
+				MAX_REPEATS = Constants.INT_NONE_VALUE;
+			} else if(repeats>0) {
+				MAX_REPEATS = repeats;
+			} else {
+				throw new IllegalArgumentException("Invalid value for Max Repeats: " + repeats); //TODO the message shouldn't be set here
+			}		
+	}
 }

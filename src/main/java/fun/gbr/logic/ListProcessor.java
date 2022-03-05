@@ -151,7 +151,7 @@ public class ListProcessor {
 	public static List<Integer> getLegalLocations(List<String> list, String element){
 		
 		List<Clump> clumps = getListClumps(list);
-		List<Integer> allowedLocations = IntStream.rangeClosed(0, list.size()-1)
+		List<Integer> allowedLocations = IntStream.rangeClosed(0, list.size())
 			    .boxed().collect(Collectors.toList());	
 		
 		// Remove locations adjacent or in clumps at their max size
@@ -159,7 +159,10 @@ public class ListProcessor {
 		for(Clump clump: clumps) {
 			if(clump.isBorderlineOrWorse() && clump.getElement().equals(element)) {
 				allowedLocations.removeAll(IntStream.rangeClosed(clump.getLocation(), clump.getLocation()+clump.getSize())
-					    .boxed().collect(Collectors.toList()));				
+					    .boxed().collect(Collectors.toList()));	
+				if(allowedLocations.isEmpty()) {
+					return allowedLocations;
+				}
 			}
 		}
 		

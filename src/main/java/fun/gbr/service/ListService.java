@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import com.opencsv.exceptions.CsvException;
 
@@ -111,6 +113,16 @@ public class ListService {
 			this.writer = new CSVListWriter(writeHandler);
 		}
 		
+	}
+	
+	/** Take an input string, return it shuffled
+	 * @param csv
+	 * @return
+	 */
+	public static String shuffle(String csv) {
+		List<String> elems = new ArrayList<>(Arrays.asList(csv.split(",")));
+		ListProcessor.shuffle(elems);
+		return elems.stream().collect(Collectors.joining(","));		
 	}
 	
 	/** Fetches, shuffles, and outputs a list

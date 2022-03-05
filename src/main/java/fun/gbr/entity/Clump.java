@@ -34,10 +34,16 @@ public class Clump {
 		return location;
 	}
 	
+	/**
+	 * @return true if clump has size above max
+	 */
 	public boolean isIllegal() {
 		return this.size > Options.MAX_REPEATS;
 	}
 	
+	/**
+	 * @return true if clump has size superior or equal to max, false otherwise
+	 */
 	public boolean isBorderlineOrWorse() {
 		return this.size >= Options.MAX_REPEATS;
 	}
